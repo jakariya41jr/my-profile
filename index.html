@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Md Jakariya Hasan's official page - Broken Heart Aesthetic.">
+    <meta name="author" content="Md Jakariya Hasan">
+    <title>Jakariya Hasan | Heartbroken Enthusiast</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        :root {
+            /* Broken Love Theme Colors */
+            --primary-red: #ff4757;
+            --deep-red: #c0392b;
+            --dark-bg: #0a0a0a;
+            --light-bg: #fdf2f2;
+            --glass-white: rgba(255, 255, 255, 0.03);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            transition: var(--transition);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Background Animation Canvas --- */
+        #snowCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            background-image: radial-gradient(circle at top right, #1a0505, #0a0a0a);
+            color: #f1f5f9;
+        }
+        body.light-mode {
+            background-color: var(--light-bg);
+            background-image: radial-gradient(circle at top right, #ffebeb, #fdf2f2);
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* --- Controls --- */
+        .controls {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            background: var(--primary-red);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(192, 57, 43, 0.3);
+        }
+        .control-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        /* --- Profile Card --- */
+        .profile-card {
+            padding: 45px 20px;
+            border-radius: 35px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        body.light-mode .profile-card { background: rgba(255, 255, 255, 0.8); }
+        body.dark-mode .profile-card { background: rgba(0, 0, 0, 0.4); }
+
+        .profile-img {
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-red);
+            object-fit: cover;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.4);
+            filter: grayscale(30%); /* A bit muted for broken look */
+        }
+        .profile-img:hover { filter: grayscale(0%); transform: scale(1.05); }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        h1 span { color: var(--primary-red); text-shadow: 0 0 10px rgba(255, 71, 87, 0.3); }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.7;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            list-style: none;
+        }
+        .info-item {
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-red);
+        }
+
+        /* --- Sections --- */
+        section {
+            margin-bottom: 40px;
+            padding: 40px;
+            border-radius: 28px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+        body.dark-mode section { background: rgba(255, 255, 255, 0.01); }
+        body.light-mode section { background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* --- Buttons --- */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .link-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 18px;
+            background: rgba(255, 71, 87, 0.05);
+            border: 1px solid rgba(255, 71, 87, 0.1);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .link-btn:hover {
+            background: var(--primary-red);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 71, 87, 0.3);
+        }
+
+        /* --- Hobbies --- */
+        .hobbies-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        .hobby-item {
+            padding: 12px 25px;
+            border-radius: 50px;
+            background: rgba(255, 71, 87, 0.05);
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .hobby-item:hover {
+            background: var(--primary-red);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        blockquote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            padding: 25px;
+            border-left: 5px solid var(--primary-red);
+            margin: 30px 0;
+            background: rgba(255, 71, 87, 0.03);
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            opacity: 0.5;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.3rem; }
+            section { padding: 30px 20px; }
+            .controls { top: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+    <canvas id="snowCanvas"></canvas>
+    
+    <div class="controls">
+        <button class="control-btn" onclick="toggleMusic()" title="Play Broken Melody">
+            <i class="fas fa-music" id="music-icon"></i>
+        </button>
+        <button class="control-btn" onclick="toggleTheme()" title="Switch Perspective">
+            <i class="fas fa-sun" id="theme-icon"></i>
+        </button>
+    </div>
+    
+    <audio id="bgm" loop>
+        <source src="https://files.catbox.moe/yqdrhw.m4a" type="audio/mp4">
+    </audio>
+
+    <div class="container">
+        <header class="profile-card" data-aos="zoom-in">
+            <img src="https://i.ibb.co/GQQMDH2s/resize-17684394379502722161000369938.jpg" alt="Jakariya Hasan" class="profile-img">
+            <h1>Md Jakariya <span>Hasan</span></h1>
+            <p class="tagline">Finding peace in the pieces...</p>
+            <div class="profile-info">
+                <span class="info-item"><i class="fas fa-heart-broken"></i> Heartbroken</span>
+                <span class="info-item"><i class="fas fa-map-marker-alt"></i> Kishoreganj, BD</span>
+                <span class="info-item"><i class="fas fa-moon"></i> 23 Years of Pain</span>
+            </div>
+        </header>
+
+        <section data-aos="fade-up">
+            <h2><i class="fas fa-skull-crossbones"></i> The Story</h2>
+            <p>Life isn't always about the colors; sometimes it's about learning to live in the shadows. I've learned that a broken heart doesn't stop beating—มัน merely beats differently. Through every scar and every piece, I am rediscovering who I am when the world goes quiet.</p>
+        </section>
+
+        <section data-aos="fade-up">
+            <h2><i class="fas fa-link"></i> Find Me in the Dark</h2>
+            <div class="link-grid">
+                <a href="https://www.facebook.com/jakariya41" class="link-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+                <a href="https://www.tiktok.com/@jakariya41jr?_r=1&_t=ZS-935B76zMUfF" class="link-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+                <a href="https://www.instagram.com/jakariya441?igsh=dXE3dGcwbTNuZjVx" class="link-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://m.me/jakariya41" class="link-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook-messenger"></i> Messenger
+                </a>
+                <a href="https://t.me/jakariya41jr" class="link-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-telegram"></i> Telegram
+                </a>
+            </div>
+        </section>
+
+        <section data-aos="fade-up">
+            <h2><i class="fas fa-heart-broken"></i> Things I Do</h2>
+            <div class="hobbies-grid">
+                <div class="hobby-item">Coding in Silence</div>
+                <div class="hobby-item">Late Night Walks</div>
+                <div class="hobby-item">Sad Melodies</div>
+                <div class="hobby-item">Photography</div>
+                <div class="hobby-item">Loneliness</div>
+            </div>
+        </section>
+        
+        <section data-aos="fade-up">
+            <h2><i class="fas fa-ghost"></i> The Aftermath</h2>
+            <p>My goal is no longer to be successful in the eyes of others, but to be at peace with my own soul. Healing is a long journey, and I am taking it one broken step at a time. Maybe one day, these pieces will make a masterpiece.</p>
+            <blockquote>
+                "The hardest part about walking away from someone is the part where you realize that no matter how slowly you go, they will never run after you."
+            </blockquote>
+        </section>
+
+        <section data-aos="fade-up">
+            <h2><i class="fas fa-envelope-open-text"></i> Leave a Message</h2>
+            <div class="link-grid">
+                <a href="mailto:mdjakariyahsan1@gmail.com" class="link-btn"><i class="fas fa-envelope"></i> Send an Email</a>
+                <a href="tel:+8809638406092" class="link-btn"><i class="fas fa-phone"></i> Voice Call</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Jakariya Hasan. Built with 💔 and a lot of memories.</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1200, once: true });
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.replace('dark-mode', 'light-mode');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                body.classList.replace('light-mode', 'dark-mode');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        // Music Toggle
+        const audio = document.getElementById('bgm');
+        const mIcon = document.getElementById('music-icon');
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                mIcon.classList.replace('fa-music', 'fa-pause');
+            } else {
+                audio.pause();
+                mIcon.classList.replace('fa-pause', 'fa-music');
+            }
+        }
+
+        // --- BROKEN HEART & SNOWFALL ENGINE ---
+        const canvas = document.getElementById('snowCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, elements = [];
+
+        function initCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class FallingElement {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.size = Math.random() * 20 + 10;
+                this.speedV = Math.random() * 1.5 + 0.5;
+                this.speedH = Math.random() * 1 - 0.5;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 2 - 1;
+                
+                // Randomly choose between Snow, Broken Heart, and Wilted Flower
+                const types = ['❄', '💔', '🥀', '💧'];
+                this.char = types[Math.floor(Math.random() * types.length)];
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.y += this.speedV;
+                this.x += this.speedH;
+                this.rotation += this.rotationSpeed;
+                if (this.y > height) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.font = `${this.size}px serif`;
+                ctx.fillText(this.char, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        function createElements() {
+            elements = [];
+            const count = width < 600 ? 30 : 60;
+            for (let i = 0; i < count; i++) elements.push(new FallingElement());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            // Color based on theme
+            ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#ff4757' : '#c0392b';
+            elements.forEach(el => { el.update(); el.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => { initCanvas(); createElements(); });
+        initCanvas(); createElements(); animate();
+    </script>
+</body>
+</html>
