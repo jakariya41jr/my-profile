@@ -376,6 +376,60 @@
             box-shadow: 0 0 15px var(--primary-red);
         }
 
+        /* --- Pain Timer Styles (New Feature) --- */
+        .pain-timer-container {
+            margin: 25px auto 10px auto;
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.1), inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .pain-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .pain-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-red);
+        }
+        
+        body.light-mode .pain-number { color: var(--deep-red); text-shadow: none; }
+
+        .pain-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-top: 2px;
+            color: var(--primary-red);
+        }
+
+        .pain-separator {
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            align-self: flex-start;
+            margin-top: 5px;
+            animation: pulseSep 1s infinite;
+        }
+
+        @keyframes pulseSep {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--primary-red); }
+            50% { opacity: 0.3; text-shadow: none; }
+        }
+
         /* --- Sections --- */
         section {
             margin-bottom: 40px;
@@ -504,6 +558,8 @@
             .controls { top: 15px; right: 15px; }
             .profile-card { transform: none !important; }
             .img-container { width: 160px; height: 160px; }
+            .pain-number { font-size: 1.4rem; }
+            .pain-label { font-size: 0.6rem; }
         }
 
         .pain-heart-effect {
@@ -543,7 +599,7 @@
         <button class="control-btn" onclick="toggleLanguage()" title="Switch Language">
             <span id="lang-icon">BN</span>
         </button>
-        <button class="control-btn" onclick="toggleMusic()" title="Play Broken Melody">
+        <button class="control-btn" onclick="toggleMusic(event)" title="Play/Pause Melody">
             <i class="fas fa-music" id="music-icon"></i>
         </button>
         <button class="control-btn" onclick="toggleTheme()" title="Switch Perspective">
@@ -572,11 +628,36 @@
             <div class="profile-info">
                 <span class="info-item"><i class="fas fa-heart-broken"></i> Heartbroken</span>
                 <span class="info-item"><i class="fas fa-map-marker-alt"></i> Kishoreganj, BD</span>
-                <span class="info-item"><i class="fas fa-moon"></i> 
-                    <span class="lang-en">23 Years of Pain</span>
-                    <span class="lang-bn hidden">২৩ বছরের যাতনা</span>
-                </span>
             </div>
+
+            <div class="pain-timer-container">
+                <div class="pain-box">
+                    <span class="pain-number" id="p-years">22</span>
+                    <span class="pain-label">Years</span>
+                </div>
+                <div class="pain-box">
+                    <span class="pain-number" id="p-months">08</span>
+                    <span class="pain-label">Months</span>
+                </div>
+                <div class="pain-box">
+                    <span class="pain-number" id="p-days">09</span>
+                    <span class="pain-label">Days</span>
+                </div>
+                <div class="pain-separator">:</div>
+                <div class="pain-box">
+                    <span class="pain-number" id="p-hours">00</span>
+                    <span class="pain-label">Hours</span>
+                </div>
+                <div class="pain-box">
+                    <span class="pain-number" id="p-min">00</span>
+                    <span class="pain-label">Min</span>
+                </div>
+                <div class="pain-box">
+                    <span class="pain-number" id="p-sec">00</span>
+                    <span class="pain-label">Sec</span>
+                </div>
+            </div>
+
         </header>
 
         <section data-aos="fade-up" data-aos-delay="100">
@@ -765,20 +846,85 @@
             }
         }
 
+        /* ------------------------------------------------------------
+           Pain Timer Logic (Modified for Age/Duration)
+           Calculated Start Date: May 27, 2003
+           Target Today (Feb 5, 2026): 22 Years, 8 Months, 9 Days
+        ------------------------------------------------------------ */
+        function updatePainTimer() {
+            // এই তারিখটি সেট করা হয়েছে যাতে আজকের দিনে (Feb 5, 2026) 
+            // বয়স ঠিক 22 বছর 8 মাস 9 দিন দেখায়।
+            const startDate = new Date('2003-05-27T00:00:00');
+            const now = new Date();
+
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+            
+            // Adjust for negative days
+            if (days < 0) {
+                months--;
+                // Get days in previous month
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            // Adjust for negative months
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Format with leading zeros
+            const fmt = (n) => n < 10 ? '0' + n : n;
+
+            document.getElementById('p-years').innerText = fmt(years);
+            document.getElementById('p-months').innerText = fmt(months);
+            document.getElementById('p-days').innerText = fmt(days);
+            document.getElementById('p-hours').innerText = fmt(hours);
+            document.getElementById('p-min').innerText = fmt(minutes);
+            document.getElementById('p-sec').innerText = fmt(seconds);
+        }
+
+        // Run immediately and then every second
+        updatePainTimer();
+        setInterval(updatePainTimer, 1000);
+
+        /* ------------------------------------------------------------ */
+
         const audio = document.getElementById('bgm');
         const mIcon = document.getElementById('music-icon');
-        function toggleMusic() {
+        let musicHasStarted = false; 
+
+        function toggleMusic(event) {
+            if(event) event.stopPropagation();
+
             if (audio.paused) {
-                audio.play().catch(e => console.log("Audio play failed"));
+                audio.play();
                 mIcon.classList.replace('fa-music', 'fa-pause');
+                musicHasStarted = true;
             } else {
                 audio.pause();
                 mIcon.classList.replace('fa-pause', 'fa-music');
             }
         }
 
-        // ✅✅✅ COMPLETELY REWRITTEN LANGUAGE TOGGLE - GUARANTEED TO WORK ✅✅✅
-        let currentLang = 'en'; // Track current language state
+        document.body.addEventListener('click', function() {
+            if (!musicHasStarted) {
+                audio.play().then(() => {
+                    musicHasStarted = true;
+                    mIcon.classList.replace('fa-music', 'fa-pause');
+                }).catch(error => {
+                    console.log("Audio play prevented until user interaction:", error);
+                });
+            }
+        }, { once: true });
+
+        let currentLang = 'en';
         let isAnimating = false;
 
         function toggleLanguage() {
@@ -788,46 +934,24 @@
             const langIcon = document.getElementById('lang-icon');
             const body = document.body;
             
-            // Start icon animation
             langIcon.classList.add('lang-switching');
             
             setTimeout(() => {
-                // Toggle language
                 if (currentLang === 'en') {
-                    // Switch to Bengali
                     currentLang = 'bn';
                     langIcon.textContent = "EN";
                     body.classList.add('lang-bn');
-                    
-                    // Hide all English, Show all Bengali
-                    document.querySelectorAll('.lang-en').forEach(el => {
-                        el.classList.add('hidden');
-                    });
-                    document.querySelectorAll('.lang-bn').forEach(el => {
-                        el.classList.remove('hidden');
-                    });
+                    document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
+                    document.querySelectorAll('.lang-bn').forEach(el => el.classList.remove('hidden'));
                 } else {
-                    // Switch to English
                     currentLang = 'en';
                     langIcon.textContent = "BN";
                     body.classList.remove('lang-bn');
-                    
-                    // Show all English, Hide all Bengali
-                    document.querySelectorAll('.lang-en').forEach(el => {
-                        el.classList.remove('hidden');
-                    });
-                    document.querySelectorAll('.lang-bn').forEach(el => {
-                        el.classList.add('hidden');
-                    });
+                    document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
+                    document.querySelectorAll('.lang-bn').forEach(el => el.classList.add('hidden'));
                 }
-                
-                // End icon animation
                 langIcon.classList.remove('lang-switching');
-                
-                // Allow next toggle
-                setTimeout(() => {
-                    isAnimating = false;
-                }, 400);
+                setTimeout(() => { isAnimating = false; }, 400);
             }, 400);
         }
 
@@ -897,4 +1021,4 @@
         });
     </script>
 </body>
-    </html>
+            </html>
