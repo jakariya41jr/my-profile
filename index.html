@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Md Jakariya Hasan's official page - Broken Heart Aesthetic.">
     <meta name="author" content="Md Jakariya Hasan">
-    <title>Md Jakariya Hasan | Heartbroken Enthusiast</title>
+    <title>Jakariya Hasan | Heartbroken Enthusiast</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
         :root {
-            /* Broken Love Theme Colors */
             --primary-red: #ff4757;
             --deep-red: #c0392b;
             --dark-bg: #0a0a0a;
             --light-bg: #fdf2f2;
-            --glass-white: rgba(255, 255, 255, 0.03);
+            --neon-glow: 0 0 10px #ff4757, 0 0 20px #ff4757, 0 0 40px #ff4757;
             --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -27,6 +26,55 @@
             padding: 0;
             box-sizing: border-box;
             scroll-behavior: smooth;
+            cursor: none;
+        }
+
+        /* --- Scroll Progress Bar --- */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 9999;
+        }
+        #progress-bar {
+            height: 100%;
+            background: var(--primary-red);
+            width: 0%;
+            box-shadow: 0 0 10px var(--primary-red);
+            transition: width 0.1s;
+        }
+
+        /* --- Custom Cursor --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-red);
+            box-shadow: 0 0 10px var(--primary-red);
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--primary-red);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        body:hover .cursor-outline { opacity: 1; }
+        a:hover ~ .cursor-outline, button:hover ~ .cursor-outline {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: rgba(255, 71, 87, 0.1);
+            border-color: transparent;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
         }
 
         body {
@@ -41,6 +89,46 @@
             position: relative;
         }
 
+        body.lang-bn, .lang-bn {
+            font-family: 'Hind Siliguri', sans-serif !important;
+        }
+
+        /* --- Moving Gradient Background Animation --- */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Cinematic Grain Effect --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 997;
+            opacity: 0.05;
+            background: url('https://cdnjs.cloudflare.com/ajax/libs/media-element/4.2.16/backgrounds/noise.png');
+        }
+
+        /* --- Spotlight Effect --- */
+        #spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 998;
+            background: radial-gradient(circle 600px at var(--x) var(--y), transparent 10%, rgba(0,0,0,0.85) 100%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        body.dark-mode #spotlight { opacity: 1; }
+        body.light-mode #spotlight { display: none; }
+
         /* --- Background Animation Canvas --- */
         #snowCanvas {
             position: fixed;
@@ -54,7 +142,9 @@
 
         body.dark-mode {
             background-color: var(--dark-bg);
-            background-image: radial-gradient(circle at top right, #1a0505, #0a0a0a);
+            background: linear-gradient(-45deg, #0a0a0a, #1a0505, #2c0b0e, #000000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: #f1f5f9;
         }
         body.light-mode {
@@ -66,7 +156,7 @@
         .container {
             max-width: 800px;
             width: 100%;
-            z-index: 2;
+            z-index: 1000;
             position: relative;
         }
 
@@ -77,14 +167,14 @@
             right: 25px;
             display: flex;
             gap: 12px;
-            z-index: 1000;
+            z-index: 2000;
         }
         .control-btn {
             width: 50px;
             height: 50px;
             border: none;
             border-radius: 16px;
-            cursor: pointer;
+            cursor: pointer !important;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -93,10 +183,24 @@
             background: var(--primary-red);
             color: white;
             box-shadow: 0 10px 15px -3px rgba(192, 57, 43, 0.3);
+            font-weight: bold;
         }
         .control-btn:hover {
             transform: translateY(-3px) scale(1.1);
             filter: brightness(1.2);
+        }
+
+        /* --- Language Icon --- */
+        #lang-icon {
+            display: inline-block;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .lang-switching {
+            transform: scale(0) rotate(360deg);
+            opacity: 0;
         }
 
         /* --- Profile Card --- */
@@ -109,30 +213,136 @@
             text-align: center;
             margin-bottom: 40px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
         }
+        
+        .profile-card > * {
+            transform: translateZ(20px);
+        }
+
         body.light-mode .profile-card { background: rgba(255, 255, 255, 0.8); }
         body.dark-mode .profile-card { background: rgba(0, 0, 0, 0.4); }
 
-        .profile-img {
-            width: 165px;
-            height: 165px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-red);
-            object-fit: cover;
-            margin-bottom: 25px;
-            transition: var(--transition);
-            box-shadow: 0 0 30px rgba(255, 71, 87, 0.4);
-            filter: grayscale(30%); /* A bit muted for broken look */
+        /* --- Broken Ring Image --- */
+        .img-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
         }
-        .profile-img:hover { filter: grayscale(0%); transform: scale(1.05); }
+        .img-container::before {
+            content: '';
+            position: absolute;
+            inset: -6px; 
+            border-radius: 50%;
+            border: 5px solid var(--primary-red);
+            border-top-style: dotted;
+            border-bottom-style: double;
+            border-left-color: transparent;
+            animation: spinBrokenRing 12s linear infinite;
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.8), inset 0 0 10px rgba(255, 71, 87, 0.5);
+            z-index: 2;
+        }
+        .img-container::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: rgba(255, 71, 87, 0.7);
+            border-right-color: rgba(255, 71, 87, 0.3);
+            animation: spinErraticShard 7s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite alternate;
+            z-index: 1;
+        }
+        @keyframes spinBrokenRing {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.03); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @keyframes spinErraticShard {
+            0% { transform: rotate(0deg) scale(0.95); opacity: 0.5; }
+            30% { transform: rotate(-50deg) scale(1.1); opacity: 1; }
+            70% { transform: rotate(90deg) scale(0.9); opacity: 0.7; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.5; }
+        }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 5;
+            display: block; 
+            box-shadow: inset 0 0 20px rgba(255, 71, 87, 0.9);
+            filter: grayscale(20%) contrast(1.1);
+        }
+        .profile-img:hover { 
+            filter: grayscale(0%);
+            transform: scale(1.03); 
+        }
 
-        h1 {
+        /* --- Glitch Effect Text --- */
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+            max-width: 100%; /* Prevents horizontal overflow */
+        }
+        .glitch {
             font-family: 'Playfair Display', serif;
             font-size: 3rem;
-            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: none; 
+            position: relative;
+            color: #ffffff;
             letter-spacing: -1px;
         }
-        h1 span { color: var(--primary-red); text-shadow: 0 0 10px rgba(255, 71, 87, 0.3); }
+        body.light-mode .glitch { color: var(--dark-bg); }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #00ffff;
+            clip: rect(24px, 100%, 90px, 0); /* Changed 550px to 100% */
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #ff00ff;
+            clip: rect(85px, 100%, 140px, 0); /* Changed 550px to 100% */
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        body.light-mode .glitch::before, body.light-mode .glitch::after { background: var(--light-bg); }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(14px, 9999px, 127px, 0); }
+            20% { clip: rect(38px, 9999px, -9px, 0); }
+            40% { clip: rect(89px, 9999px, 49px, 0); }
+            60% { clip: rect(24px, 9999px, 128px, 0); }
+            80% { clip: rect(109px, 9999px, 86px, 0); }
+            100% { clip: rect(54px, 9999px, 25px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(119px, 9999px, 47px, 0); }
+            20% { clip: rect(16px, 9999px, 129px, 0); }
+            40% { clip: rect(69px, 9999px, 11px, 0); }
+            60% { clip: rect(13px, 9999px, 2px, 0); }
+            80% { clip: rect(59px, 9999px, 97px, 0); }
+            100% { clip: rect(133px, 9999px, 7px, 0); }
+        }
 
         .tagline {
             font-size: 1.1rem;
@@ -158,6 +368,12 @@
             align-items: center;
             gap: 8px;
             color: var(--primary-red);
+            transition: 0.3s;
+        }
+        .info-item:hover {
+            background: var(--primary-red);
+            color: white;
+            box-shadow: 0 0 15px var(--primary-red);
         }
 
         /* --- Sections --- */
@@ -172,6 +388,11 @@
         body.dark-mode section { background: rgba(255, 255, 255, 0.01); }
         body.light-mode section { background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
+        section:hover {
+            border-color: rgba(255, 71, 87, 0.4);
+            transform: translateY(-5px);
+        }
+
         h2 {
             font-family: 'Playfair Display', serif;
             font-size: 2rem;
@@ -180,6 +401,22 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            border-bottom: 1px solid rgba(255, 71, 87, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-red);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
         }
 
         /* --- Buttons --- */
@@ -200,6 +437,9 @@
             border: 1px solid rgba(255, 71, 87, 0.1);
             font-weight: 600;
             transition: var(--transition);
+            cursor: pointer !important;
+            position: relative;
+            overflow: hidden;
         }
         .link-btn:hover {
             background: var(--primary-red);
@@ -227,19 +467,23 @@
         .hobby-item:hover {
             background: var(--primary-red);
             color: white;
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
         }
 
         blockquote {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             padding: 25px;
             border-left: 5px solid var(--primary-red);
             margin: 30px 0;
             background: rgba(255, 71, 87, 0.03);
             line-height: 1.6;
         }
+
+        .lang-content { display: block; }
+        .hidden { display: none !important; }
 
         footer {
             text-align: center;
@@ -248,19 +492,54 @@
             font-size: 0.85rem;
             letter-spacing: 1px;
         }
-
+        
         @media (max-width: 600px) {
-            h1 { font-size: 2.3rem; }
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .glitch { font-size: 2.2rem; }
             section { padding: 30px 20px; }
             .controls { top: 15px; right: 15px; }
+            .profile-card { transform: none !important; }
+            .img-container { width: 160px; height: 160px; }
         }
+
+        .pain-heart-effect {
+            position: fixed;
+            pointer-events: none;
+            font-size: 2.5rem;
+            z-index: 9999;
+            opacity: 1;
+            filter: drop-shadow(0 0 10px rgba(255, 71, 87, 0.8));
+            animation: floatUpPain 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes floatUpPain {
+            0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { transform: translate(-50%, -50%) scale(1.2) rotate(-10deg); opacity: 1; }
+            100% { transform: translate(-50%, -200%) scale(1.5) rotate(15deg); opacity: 0; }
+        }
+
     </style>
 </head>
 <body class="dark-mode">
 
+    <div class="noise-overlay"></div>
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div id="spotlight"></div>
+
     <canvas id="snowCanvas"></canvas>
     
     <div class="controls">
+        <button class="control-btn" onclick="toggleLanguage()" title="Switch Language">
+            <span id="lang-icon">BN</span>
+        </button>
         <button class="control-btn" onclick="toggleMusic()" title="Play Broken Melody">
             <i class="fas fa-music" id="music-icon"></i>
         </button>
@@ -274,24 +553,86 @@
     </audio>
 
     <div class="container">
-        <header class="profile-card" data-aos="zoom-in">
-            <img src="https://i.ibb.co/GQQMDH2s/resize-17684394379502722161000369938.jpg" alt="Jakariya Hasan" class="profile-img">
-            <h1>Md Jakariya <span>Hasan</span></h1>
-            <p class="tagline">Finding peace in the pieces...</p>
+        <header class="profile-card" id="tiltCard" data-aos="zoom-in" data-aos-duration="1500">
+            <div class="img-container">
+                <img src="https://i.ibb.co/GQQMDH2s/resize-17684394379502722161000369938.jpg" alt="Jakariya Hasan" class="profile-img">
+            </div>
+            
+            <div class="glitch-wrapper">
+                <h1 class="glitch" data-text="Md Jakariya Hasan">Md Jakariya <span style="color: var(--primary-red);">Hasan</span></h1>
+            </div>
+            
+            <p class="tagline">
+                <span class="lang-en">Finding peace in the pieces...</span>
+                <span class="lang-bn hidden">টুকরো স্মৃতির মাঝে শান্তি খুঁজে ফিরছি...</span>
+            </p>
             <div class="profile-info">
                 <span class="info-item"><i class="fas fa-heart-broken"></i> Heartbroken</span>
                 <span class="info-item"><i class="fas fa-map-marker-alt"></i> Kishoreganj, BD</span>
-                <span class="info-item"><i class="fas fa-moon"></i> 23 Years of Pain</span>
+                <span class="info-item"><i class="fas fa-moon"></i> 
+                    <span class="lang-en">23 Years of Pain</span>
+                    <span class="lang-bn hidden">২৩ বছরের যাতনা</span>
+                </span>
             </div>
         </header>
 
-        <section data-aos="fade-up">
-            <h2><i class="fas fa-skull-crossbones"></i> The Story</h2>
-            <p>Life isn't always about the colors; sometimes it's about learning to live in the shadows. I've learned that a broken heart doesn't stop beating—มัน merely beats differently. Through every scar and every piece, I am rediscovering who I am when the world goes quiet.</p>
+        <section data-aos="fade-up" data-aos-delay="100">
+            <h2><i class="fas fa-user-secret"></i> 
+                <span class="lang-en">My Silence</span>
+                <span class="lang-bn hidden">আমার নীরবতা</span>
+            </h2>
+            
+            <div class="lang-en">
+                <blockquote>"My silence is not empty; it is full of answers."</blockquote>
+                <p>I speak little, not because I lack words, but because I have learned that not every feeling belongs on display. Some emotions deserve the sanctity of silence. Life taught me early—not every light brings warmth, and not every smile signals peace.</p>
+                <p>Sometimes, the quietest people are fighting the loudest wars—alone, unseen, and within.</p>
+                
+                <h3>Reality & Ambition</h3>
+                <p>I handle my duties in the daylight and face my truth in the dark. In those solitary moments, there are no witnesses, no applause—just me and the raw reality of who I am. I hold no hatred for love, nor do I worship it blindly. Love is beautiful, but it is not the entirety of life.</p>
+                <p><strong>My focus is sharp and stripped of noise:</strong></p>
+                <ul>
+                    <li>To build myself from the ground up.</li>
+                    <li>To stand firmly on my own feet.</li>
+                    <li>To earn not just money, but freedom.</li>
+                </ul>
+                <p><br>In the real world, wealth is not just currency; it is dignity, security, and the power to say "no."</p>
+
+                <h3>Character & Dignity</h3>
+                <p>I have anger, but it is disciplined. I do not engage in pointless battles; chaos is not my nature. Chasing people or drama is beneath me. Anyone can explode, but real power lies in control.</p>
+                <p>However, do not mistake my patience for weakness. I respect the peace of others, but if someone deliberately threatens mine, I do not retreat. I stand my ground. This is not revenge—it is self-respect. It is drawing a line that cannot be crossed.</p>
+
+                <h3>My Core: Parents</h3>
+                <p>At the center of my universe are my parents. They are my breath, my life force. When the world misunderstood me, they stood by quietly. They are the silent witnesses to my exhaustion, my failures, and my unspoken pain. Everything I am, and everything I aim to be, is rooted in their sacrifices. I fight not just for myself, but to bring peace and pride to their eyes.</p>
+            </div>
+
+            <div class="lang-bn hidden">
+                <blockquote>"আমার নীরবতা শূন্যতা নয়, এটি আমার শক্তি।"</blockquote>
+                <p>আমি কথা কম বলি, কারণ জীবন আমাকে শিখিয়েছে—সব অনুভূতি নিলামে তুলতে নেই, কিছু অনুভূতি বুকের গভীরে খুব গোপনে বাঁচিয়ে রাখতে হয়। খুব অল্প বয়সেই আমি বুঝেছি, সব আলোতে উষ্ণতা থাকে না, আর সব হাসির পেছনে সুখ থাকে না।</p>
+                <p>মাঝে মাঝে সবচেয়ে শান্ত মানুষটিই ভেতরে সবচেয়ে বড় যুদ্ধটা লড়ে—একেবারে একা, নিঃশব্দে।</p>
+
+                <h3>বাস্তবতা ও লক্ষ্য</h3>
+                <p>দিনের আলোয় আমি দায়িত্ব পালন করি, আর রাতের অন্ধকারে নিজের বিবেকের মুখোমুখি হই। সেখানে কোনো দর্শক নেই, হাততালি নেই—আছে শুধু আমি আর আমার সত্য। ভালোবাসা নিয়ে আমার কোনো ঘৃণা নেই, তবে অন্ধ মোহও নেই। আমি জানি ভালোবাসা সুন্দর, কিন্তু ভালোবাসা মানেই 'জীবন' নয়।</p>
+                <p><strong>তাই আমার লক্ষ্য এখন স্বচ্ছ ও স্থির:</strong></p>
+                <ul>
+                    <li>অপ্রয়োজনীয় নাটক এড়িয়ে চলা।</li>
+                    <li>নিজেকে ইস্পাতের মতো শক্ত করে গড়া।</li>
+                    <li>অর্থনৈতিক স্বাধীনতা অর্জন করা।</li>
+                </ul>
+                <p><br>কারণ আমি বিশ্বাস করি, বাস্তব পৃথিবীতে টাকা মানে কেবল কাগজ নয়—টাকা মানে নিরাপত্তা, আত্মসম্মান এবং মাথা উঁচু করে বাঁচার স্বাধীনতা।</p>
+
+                <h3>চরিত্র ও আত্মসম্মান</h3>
+                <p>আমার রাগ আছে, কিন্তু তা বিশৃঙ্খল নয়। আমি অকারণে তর্কে জড়াই না, অন্যের পেছনে লাগা আমার আভিজাত্যে বাঁধে। রাগ দেখানো সহজ, কিন্তু রাগ সামলে রাখাই আসল পৌরুষ। তবে, আমার এই শান্ত স্বভাবকে কেউ দুর্বলতা ভাবলে ভুল করবে। আমি কারো শান্তিতে হানা দিই না, কিন্তু কেউ যদি আমার আত্মসম্মানে আঘাত করে, তবে আমি আপোষ করি না। এটা প্রতিশোধ নয়, এটা নিজের সীমানা জানান দেওয়া।</p>
+
+                <h3>আমার পৃথিবী: মা-বাবা</h3>
+                <p>আমার সমস্ত অস্তিত্ব, আমার সব লড়াইয়ের মূলে মাত্র দুটি মানুষ—আমার মা এবং বাবা। তারাই আমার পৃথিবী, আমার নিশ্বাস। যখন কেউ আমাকে বোঝেনি, তারা পাশে ছিলেন। আমার ক্লান্তি, ব্যর্থতা আর না-বলা যন্ত্রণার নীরব সাক্ষী তারাই। আমি লড়ছি, কেবল নিজের জন্য নয়—তাদের চোখে একটু প্রশান্তি আর গর্ব দেখার জন্য।</p>
+            </div>
         </section>
 
-        <section data-aos="fade-up">
-            <h2><i class="fas fa-link"></i> Find Me in the Dark</h2>
+        <section data-aos="fade-up" data-aos-delay="100">
+            <h2><i class="fas fa-link"></i> 
+                <span class="lang-en">Find Me in the Dark</span>
+                <span class="lang-bn hidden">অন্ধকারে আমায় খুঁজুন</span>
+            </h2>
             <div class="link-grid">
                 <a href="https://www.facebook.com/jakariya41jr" class="link-btn" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-facebook"></i> Facebook
@@ -311,30 +652,43 @@
             </div>
         </section>
 
-        <section data-aos="fade-up">
-            <h2><i class="fas fa-heart-broken"></i> Things I Do</h2>
+        <section data-aos="fade-up" data-aos-delay="100">
+            <h2><i class="fas fa-heart-broken"></i> 
+                <span class="lang-en">Things I Do</span>
+                <span class="lang-bn hidden">আমার জগৎ</span>
+            </h2>
             <div class="hobbies-grid">
-                <div class="hobby-item">Free Fire  Lover</div>
-                <div class="hobby-item">Late Night Walks</div>
-                <div class="hobby-item">Fü©kîňg My Enemys</div>
-                <div class="hobby-item">Technology</div>
-                <div class="hobby-item">I Hate Love💔</div>
+                <div class="hobby-item">Free Fire Lover</div>
+                <div class="hobby-item"><span class="lang-en">Late Night Walks</span><span class="lang-bn hidden">মধ্যরাতের হাঁটা</span></div>
+                <div class="hobby-item">Fü©kîňg My Enemy</div>
+                <div class="hobby-item"><span class="lang-en">Technology</span><span class="lang-bn hidden">প্রযুক্তি</span></div>
+                <div class="hobby-item"><span class="lang-en">I Hate Love💔</span><span class="lang-bn hidden">ভালোবাসা ঘৃণা করি💔</span></div>
             </div>
         </section>
         
-        <section data-aos="fade-up">
-            <h2><i class="fas fa-ghost"></i> The Aftermath</h2>
-            <p>My goal is no longer to be successful in the eyes of others, but to be at peace with my own soul. Healing is a long journey, and I am taking it one broken step at a time. Maybe one day, these pieces will make a masterpiece.</p>
-            <blockquote>
-                "The hardest part about walking away from someone is the part where you realize that no matter how slowly you go, they will never run after you."
-            </blockquote>
+        <section data-aos="fade-up" data-aos-delay="100">
+            <h2><i class="fas fa-ghost"></i> 
+                <span class="lang-en">The Aftermath</span>
+                <span class="lang-bn hidden">শেষ কথা</span>
+            </h2>
+            <div class="lang-en">
+                <p>I am emotional, but not weak. I am quiet, but not hollow. Inside this silence, I am forging myself—slowly, steadily, unbreakably. Perhaps one day, someone will understand the magnitude of the fire I kept under control.</p>
+                <blockquote>"I know where I started, and I know exactly why I am willing to go the distance."</blockquote>
+            </div>
+            <div class="lang-bn hidden">
+                <p>আমি আবেগী, কিন্তু ভঙ্গুর নই। আমি শান্ত, কিন্তু ফুরিয়ে যাইনি। এই নীরবতার আড়ালে আমি নিজেকে তিলে তিলে গড়ে তুলছি—ধীরে, কিন্তু অটুট। একদিন হয়তো কেউ বুঝবে এই শান্ত চোখের আড়ালে কতটা আগুন নিয়ন্ত্রণে ছিল।</p>
+                <blockquote>"কারণ আমি জানি আমি কোথা থেকে এসেছি, আর আমি জানি আমাকে কত দূর যেতে হবে।"</blockquote>
+            </div>
         </section>
 
-        <section data-aos="fade-up">
-            <h2><i class="fas fa-envelope-open-text"></i> Leave a Message</h2>
+        <section data-aos="fade-up" data-aos-delay="100">
+            <h2><i class="fas fa-envelope-open-text"></i> 
+                <span class="lang-en">Leave a Message</span>
+                <span class="lang-bn hidden">বার্তা পাঠান</span>
+            </h2>
             <div class="link-grid">
-                <a href="mailto:mdjakariyahasan10@gmail.com" class="link-btn"><i class="fas fa-envelope"></i> Send an Email</a>
-                <a href="tel:+8809638406092" class="link-btn"><i class="fas fa-phone"></i> Voice Call</a>
+                <a href="mailto:mdjakariyahasan10@gmail.com" class="link-btn"><i class="fas fa-envelope"></i> Email</a>
+                <a href="tel:+8809638406092" class="link-btn"><i class="fas fa-phone"></i> Call Me</a>
             </div>
         </section>
 
@@ -347,7 +701,55 @@
     <script>
         AOS.init({ duration: 1200, once: true });
 
-        // Theme Toggle
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-outline");
+
+        window.addEventListener("mousemove", (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + "%";
+        });
+
+        const card = document.getElementById("tiltCard");
+        card.addEventListener("mousemove", (e) => {
+            if (window.innerWidth < 600) return;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / 25) * -1;
+            const rotateY = (x - centerX) / 25;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            card.style.transition = 'transform 0.5s ease';
+        });
+
+        const spotlight = document.getElementById('spotlight');
+        document.addEventListener('mousemove', (e) => {
+            requestAnimationFrame(() => {
+                const x = e.clientX + 'px';
+                const y = e.clientY + 'px';
+                spotlight.style.setProperty('--x', x);
+                spotlight.style.setProperty('--y', y);
+            });
+        });
+
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
@@ -360,12 +762,11 @@
             }
         }
 
-        // Music Toggle
         const audio = document.getElementById('bgm');
         const mIcon = document.getElementById('music-icon');
         function toggleMusic() {
             if (audio.paused) {
-                audio.play();
+                audio.play().catch(e => console.log("Audio play failed"));
                 mIcon.classList.replace('fa-music', 'fa-pause');
             } else {
                 audio.pause();
@@ -373,18 +774,43 @@
             }
         }
 
-        // --- BROKEN HEART & SNOWFALL ENGINE ---
+        let isEnglish = true;
+        let isAnimating = false;
+        function toggleLanguage() {
+            if(isAnimating) return;
+            isAnimating = true;
+            const langIcon = document.getElementById('lang-icon');
+            const body = document.body;
+            const enElements = document.querySelectorAll('.lang-en');
+            const bnElements = document.querySelectorAll('.lang-bn');
+            langIcon.classList.add('lang-switching');
+            setTimeout(() => {
+                isEnglish = !isEnglish;
+                if (isEnglish) {
+                    langIcon.innerText = "BN";
+                    body.classList.remove('lang-bn');
+                    enElements.forEach(el => el.classList.remove('hidden'));
+                    bnElements.forEach(el => el.classList.add('hidden'));
+                } else {
+                    langIcon.innerText = "EN";
+                    body.classList.add('lang-bn');
+                    enElements.forEach(el => el.classList.add('hidden'));
+                    bnElements.forEach(el => el.classList.remove('hidden'));
+                }
+                langIcon.classList.remove('lang-switching');
+                setTimeout(() => { isAnimating = false; }, 400);
+            }, 400);
+        }
+
         const canvas = document.getElementById('snowCanvas');
         const ctx = canvas.getContext('2d');
         let width, height, elements = [];
-
         function initCanvas() {
             width = window.innerWidth;
             height = window.innerHeight;
             canvas.width = width;
             canvas.height = height;
         }
-
         class FallingElement {
             constructor() { this.reset(); }
             reset() {
@@ -393,17 +819,17 @@
                 this.size = Math.random() * 20 + 10;
                 this.speedV = Math.random() * 1.5 + 0.5;
                 this.speedH = Math.random() * 1 - 0.5;
+                this.angle = Math.random() * Math.PI * 2;
                 this.rotation = Math.random() * 360;
                 this.rotationSpeed = Math.random() * 2 - 1;
-                
-                // Randomly choose between Snow, Broken Heart, and Wilted Flower
-                const types = ['❄', '💔', '🥀', '💧'];
+                const types = ['❄', '💔', '🥀', '💧', '✨'];
                 this.char = types[Math.floor(Math.random() * types.length)];
                 this.opacity = Math.random() * 0.5 + 0.2;
             }
             update() {
                 this.y += this.speedV;
-                this.x += this.speedH;
+                this.angle += 0.02;
+                this.x += Math.sin(this.angle) * 1.5 + this.speedH;
                 this.rotation += this.rotationSpeed;
                 if (this.y > height) this.reset();
             }
@@ -413,27 +839,33 @@
                 ctx.rotate(this.rotation * Math.PI / 180);
                 ctx.globalAlpha = this.opacity;
                 ctx.font = `${this.size}px serif`;
+                ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#ff4757' : '#c0392b';
                 ctx.fillText(this.char, 0, 0);
                 ctx.restore();
             }
         }
-
         function createElements() {
             elements = [];
             const count = width < 600 ? 30 : 60;
             for (let i = 0; i < count; i++) elements.push(new FallingElement());
         }
-
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            // Color based on theme
-            ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#ff4757' : '#c0392b';
             elements.forEach(el => { el.update(); el.draw(); });
             requestAnimationFrame(animate);
         }
-
         window.addEventListener('resize', () => { initCanvas(); createElements(); });
         initCanvas(); createElements(); animate();
+
+        document.addEventListener('click', (e) => {
+            const pain = document.createElement('div');
+            pain.classList.add('pain-heart-effect');
+            pain.innerHTML = '💔'; 
+            pain.style.left = e.clientX + 'px';
+            pain.style.top = e.clientY + 'px';
+            document.body.appendChild(pain);
+            setTimeout(() => { pain.remove(); }, 1800);
+        });
     </script>
 </body>
-</html>
+    </html>
