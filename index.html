@@ -29,7 +29,7 @@
             cursor: none;
         }
 
-        /* --- NEW FEATURE: Preloader (Heartbeat) --- */
+        /* --- UPDATED Preloader (Faster & Beautiful) --- */
         #preloader {
             position: fixed;
             top: 0;
@@ -42,32 +42,65 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
         }
+        
+        .loader-content {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .heartbeat-loader {
-            font-size: 4rem;
+            font-size: 5rem;
             color: var(--primary-red);
-            animation: heartbeat 1.5s infinite;
-            filter: drop-shadow(0 0 15px var(--primary-red));
+            z-index: 2;
+            animation: heartMorph 1.2s infinite;
+            filter: drop-shadow(0 0 20px var(--primary-red));
         }
+
+        /* এনিমেশন রিং */
+        .loader-ring {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--primary-red);
+            border-radius: 50%;
+            animation: spinRing 1s linear infinite;
+        }
+
         .loading-text {
-            margin-top: 20px;
+            margin-top: 30px;
             font-family: 'Courier New', monospace;
             color: white;
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            animation: blinkText 1.5s infinite;
+            font-size: 1rem;
+            letter-spacing: 6px;
             text-transform: uppercase;
+            background: linear-gradient(90deg, #000, #ff4757, #000);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineText 2s linear infinite;
         }
-        @keyframes heartbeat {
-            0% { transform: scale(1); opacity: 0.5; }
-            15% { transform: scale(1.3); opacity: 1; }
-            30% { transform: scale(1); opacity: 0.5; }
-            45% { transform: scale(1.15); opacity: 0.9; }
-            60% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1); opacity: 0.5; }
+
+        @keyframes heartMorph {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px var(--primary-red)); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); filter: drop-shadow(0 0 30px var(--primary-red)); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
-        @keyframes blinkText { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shineText {
+            to { background-position: 200% center; }
+        }
 
         /* --- Scroll Progress Bar --- */
         #progress-container {
@@ -117,7 +150,7 @@
             box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
         }
 
-        /* --- NEW FEATURE: Cursor Trail (Smoke/Blood) --- */
+        /* --- Cursor Trail --- */
         .trail-particle {
             position: fixed;
             pointer-events: none;
@@ -151,14 +184,12 @@
             font-family: 'Hind Siliguri', sans-serif !important;
         }
 
-        /* --- Moving Gradient Background Animation --- */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* --- Cinematic Grain Effect --- */
         .noise-overlay {
             position: fixed;
             top: 0;
@@ -171,7 +202,6 @@
             background: url('https://cdnjs.cloudflare.com/ajax/libs/media-element/4.2.16/backgrounds/noise.png');
         }
 
-        /* --- Spotlight Effect --- */
         #spotlight {
             position: fixed;
             top: 0;
@@ -187,7 +217,6 @@
         body.dark-mode #spotlight { opacity: 1; }
         body.light-mode #spotlight { display: none; }
 
-        /* --- Background Animation Canvas --- */
         #snowCanvas {
             position: fixed;
             top: 0;
@@ -229,7 +258,6 @@
             z-index: 2000;
         }
 
-        /* --- NEW FEATURE: Audio Visualizer --- */
         .music-visualizer {
             display: flex;
             align-items: flex-end;
@@ -239,9 +267,7 @@
             opacity: 0;
             transition: opacity 0.5s ease;
         }
-        .music-visualizer.active {
-            opacity: 1;
-        }
+        .music-visualizer.active { opacity: 1; }
         .bar {
             width: 4px;
             background: var(--primary-red);
@@ -280,7 +306,6 @@
             filter: brightness(1.2);
         }
 
-        /* --- Language Icon --- */
         #lang-icon {
             display: inline-block;
             font-family: 'Outfit', sans-serif;
@@ -309,14 +334,10 @@
             transform: perspective(1000px);
         }
         
-        .profile-card > * {
-            transform: translateZ(20px);
-        }
-
+        .profile-card > * { transform: translateZ(20px); }
         body.light-mode .profile-card { background: rgba(255, 255, 255, 0.8); }
         body.dark-mode .profile-card { background: rgba(0, 0, 0, 0.4); }
 
-        /* --- Broken Ring Image --- */
         .img-container {
             position: relative;
             width: 200px;
@@ -373,12 +394,8 @@
             box-shadow: inset 0 0 20px rgba(255, 71, 87, 0.9);
             filter: grayscale(20%) contrast(1.1);
         }
-        .profile-img:hover { 
-            filter: grayscale(0%);
-            transform: scale(1.03); 
-        }
+        .profile-img:hover { filter: grayscale(0%); transform: scale(1.03); }
 
-        /* --- Glitch Effect Text --- */
         .glitch-wrapper {
             position: relative;
             display: inline-block;
@@ -466,7 +483,7 @@
             box-shadow: 0 0 15px var(--primary-red);
         }
 
-        /* --- Pain Timer Styles (New Feature) --- */
+        /* --- Pain Timer --- */
         .pain-timer-container {
             margin: 25px auto 10px auto;
             background: rgba(10, 10, 10, 0.6);
@@ -480,14 +497,12 @@
             max-width: 600px;
             box-shadow: 0 0 20px rgba(255, 71, 87, 0.1), inset 0 0 20px rgba(0,0,0,0.5);
         }
-        
         .pain-box {
             display: flex;
             flex-direction: column;
             align-items: center;
             min-width: 60px;
         }
-
         .pain-number {
             font-family: 'Courier New', monospace;
             font-size: 1.8rem;
@@ -495,9 +510,7 @@
             color: #fff;
             text-shadow: 0 0 10px var(--primary-red);
         }
-        
         body.light-mode .pain-number { color: var(--deep-red); text-shadow: none; }
-
         .pain-label {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -506,7 +519,6 @@
             margin-top: 2px;
             color: var(--primary-red);
         }
-
         .pain-separator {
             font-size: 1.5rem;
             color: var(--primary-red);
@@ -514,7 +526,6 @@
             margin-top: 5px;
             animation: pulseSep 1s infinite;
         }
-
         @keyframes pulseSep {
             0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--primary-red); }
             50% { opacity: 0.3; text-shadow: none; }
@@ -548,7 +559,6 @@
             border-bottom: 1px solid rgba(255, 71, 87, 0.1);
             padding-bottom: 10px;
         }
-        
         h3 {
             font-family: 'Playfair Display', serif;
             color: var(--primary-red);
@@ -556,11 +566,103 @@
             margin-bottom: 15px;
             font-size: 1.5rem;
         }
-
         p {
             line-height: 1.8;
             margin-bottom: 15px;
             font-size: 1.05rem;
+        }
+
+        /* --- NEW SECTION STYLES: Fog & Reality --- */
+        .poetic-block {
+            text-align: center;
+            margin: 30px 0;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        .lang-en .poetic-block {
+            font-family: 'Playfair Display', serif;
+        }
+        .verse {
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 2px solid rgba(255, 71, 87, 0.3);
+            display: inline-block;
+            text-align: left;
+        }
+
+        .reality-quote-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px dashed var(--primary-red);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.1);
+            transform: skewX(-3deg);
+        }
+        body.light-mode .reality-quote-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--primary-red);
+        }
+
+        .quote-content {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transform: skewX(3deg);
+        }
+        .highlight-text { color: #ff6b81; }
+        .money-text { 
+            color: #2ed573;
+            text-shadow: 0 0 5px rgba(46, 213, 115, 0.5);
+            font-size: 1.4rem;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .bio-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: var(--primary-red);
+            transform: translateY(-3px);
+        }
+        .stat-card i {
+            font-size: 1.5rem;
+            color: var(--primary-red);
+        }
+        .stat-card div {
+            display: flex;
+            flex-direction: column;
+        }
+        .stat-card .label {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            text-transform: uppercase;
+        }
+        .stat-card .value {
+            font-size: 1rem;
+            font-weight: bold;
+            font-family: 'Outfit', sans-serif;
+        }
+        body.light-mode .stat-card {
+            background: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.1);
         }
 
         /* --- Buttons --- */
@@ -629,7 +731,6 @@
             line-height: 1.6;
         }
 
-        /* ✅ IMPROVED HIDDEN CLASS */
         .hidden { 
             display: none !important;
             visibility: hidden !important;
@@ -664,7 +765,6 @@
             filter: drop-shadow(0 0 10px rgba(255, 71, 87, 0.8));
             animation: floatUpPain 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
-
         @keyframes floatUpPain {
             0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 0; }
             20% { transform: translate(-50%, -50%) scale(1.2) rotate(-10deg); opacity: 1; }
@@ -676,8 +776,11 @@
 <body class="dark-mode">
 
     <div id="preloader">
-        <div class="heartbeat-loader">
-            <i class="fas fa-heart-broken"></i>
+        <div class="loader-content">
+            <div class="loader-ring"></div>
+            <div class="heartbeat-loader">
+                <i class="fas fa-heart-broken"></i>
+            </div>
         </div>
         <div class="loading-text">Loading Pain...</div>
     </div>
@@ -716,13 +819,13 @@
     </div>
     
     <audio id="bgm" loop>
-        <source src="https://files.catbox.moe/yqdrhw.m4a" type="audio/mp4">
+        <source src="https://github.com/jakariya41yt-cyber/song/raw/66aa61377b30ed727e526f47de38914696924827/GhorGari%20Lofi-%20Highway%20_%20%E0%A6%98%E0%A7%8B%E0%A6%B0%E0%A6%97%E0%A6%BE%E0%A6%A1%E0%A6%BC%E0%A7%80%20_%20Lofi%20Remix%20_%20Lyrical%20Video(M4A_128K).m4a" type="audio/mp4">
     </audio>
 
     <div class="container">
         <header class="profile-card" id="tiltCard" data-aos="zoom-in" data-aos-duration="1500">
             <div class="img-container">
-                <img src="https://i.ibb.co/GQQMDH2s/resize-17684394379502722161000369938.jpg" alt="Jakariya Hasan" class="profile-img">
+                <img src="https://github.com/jakariya41yt-cyber/my_photo/raw/refs/heads/main/FB_IMG_1770635659407.jpg" alt="Jakariya Hasan" class="profile-img">
             </div>
             
             <div class="glitch-wrapper">
@@ -765,7 +868,6 @@
                     <span class="pain-label">Sec</span>
                 </div>
             </div>
-
         </header>
 
         <section data-aos="fade-up" data-aos-delay="100">
@@ -820,6 +922,119 @@
             </div>
         </section>
 
+        <section data-aos="fade-up" data-aos-delay="100" class="fog-section">
+            <h2><i class="fas fa-smog"></i> 
+                <span class="lang-en">The Fog Within</span>
+                <span class="lang-bn hidden">ভিতরের কুয়াশা</span>
+            </h2>
+
+            <div class="lang-en">
+                <div class="poetic-block">
+                    <p class="verse">
+                        Fog gathers inside my head,<br>
+                        Thoughts pause halfway through,<br>
+                        As if I know everything, yet understand nothing.<br>
+                        Asking myself repeatedly, 'Where are you actually going?'
+                    </p>
+                    <p class="verse">
+                        A strange pain in the chest,<br>
+                        Neither of loss, nor of gain,<br>
+                        Neither of love, nor of rebellion,<br>
+                        Just an endless fear—'Will I ever be anything?'
+                    </p>
+                    <p class="verse">
+                        Wanted to do so much,<br>
+                        Perhaps still do, but desires are tired nowadays,<br>
+                        They don't run like before,<br>
+                        They just sit quietly—inside me.
+                    </p>
+                </div>
+                <div class="reality-quote-box">
+                    <div class="quote-content">
+                        <span class="highlight-text">➤ Love Is Beautiful</span>
+                        <br>But,<br>
+                        <span class="money-text">Money Is Powerful...! 💀💸💸💸</span>
+                    </div>
+                </div>
+                <div class="bio-stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <span class="label">Profession</span>
+                            <span class="value">Private Job</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <div>
+                            <span class="label">Religion</span>
+                            <span class="value">Islam</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-slash"></i>
+                        <div>
+                            <span class="label">Relation</span>
+                            <span class="value">Single</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lang-bn hidden">
+                <div class="poetic-block">
+                    <p class="verse">
+                        মাথার ভেতর কুয়াশা জমে আছে<br>
+                        চিন্তাগুলো থমকে থাকে মাঝপথে<br>
+                        যেন সবকিছু জানি, তবু কিছুই বুঝি না<br>
+                        নিজেকেই বারবার প্রশ্ন করি 'তুই কই যাচ্ছিস আসলে?
+                    </p>
+                    <p class="verse">
+                        বুকের ভেতর একটা অদ্ভুত ব্যথা<br>
+                        না হারানোর, না পাওয়ার<br>
+                        না প্রেমের, না বিদ্রোহের<br>
+                        শুধু একটা অন্তহীন ভয় 'আমি কি কোনোদিন কিছু হবো?
+                    </p>
+                    <p class="verse">
+                        অনেক কিছু করতে চেয়েছিলাম<br>
+                        হয়তো এখনো চাই, কিন্তু ইচ্ছেগুলো যেন আজকাল ক্লান্ত,<br>
+                        তারা আর দৌড়ায় না আগের মতো,<br>
+                        শুধু বসে থাকে- আমার ভেতরে।
+                    </p>
+                </div>
+                <div class="reality-quote-box">
+                    <div class="quote-content">
+                        <span class="highlight-text">➤ Love Is Beautiful</span>
+                        <br>But,<br>
+                        <span class="money-text">Money Is Powerful...! 💀💸💸💸</span>
+                    </div>
+                </div>
+                <div class="bio-stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <span class="label">পেশা</span>
+                            <span class="value">বেসরকারি চাকরি</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <div>
+                            <span class="label">ধর্ম</span>
+                            <span class="value">ইসলাম</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-slash"></i>
+                        <div>
+                            <span class="label">সম্পর্ক</span>
+                            <span class="value">সিঙ্গেল</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section data-aos="fade-up" data-aos-delay="100">
             <h2><i class="fas fa-fingerprint"></i> 
                 <span class="lang-en">Personal Manifesto & Digital Identity</span>
@@ -846,6 +1061,7 @@
                 </ul>
             </div>
         </section>
+        
         <section data-aos="fade-up" data-aos-delay="100">
             <h2><i class="fas fa-link"></i> 
                 <span class="lang-en">Find Me in the Dark</span>
@@ -939,13 +1155,14 @@
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // --- NEW: Remove Preloader on Load ---
+        // --- IMPROVED Preloader Logic (Faster) ---
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
+            // পেজ লোড হওয়ামাত্রই খুব অল্প সময়ের মধ্যে এটি চলে যাবে (০.৮ সেকেন্ড পর)
             setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
-            }, 2500); // 2.5 seconds delay for drama
+            }, 800); 
         });
 
         AOS.init({ duration: 1200, once: true });
@@ -953,12 +1170,11 @@
         const cursorDot = document.querySelector(".cursor-dot");
         const cursorOutline = document.querySelector(".cursor-outline");
 
-        // --- UPDATED: Cursor Logic with Smoke Trail ---
+        // --- Cursor & Trail Logic ---
         window.addEventListener("mousemove", (e) => {
             const posX = e.clientX;
             const posY = e.clientY;
             
-            // Existing Dot Logic
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
             cursorOutline.animate({
@@ -966,9 +1182,7 @@
                 top: `${posY}px`
             }, { duration: 500, fill: "forwards" });
 
-            // NEW: Create Smoke Trail Particle
-            // To prevent too many particles, we can limit creation or just create every move
-            if(Math.random() > 0.5) { // 50% chance to create trail to avoid lag
+            if(Math.random() > 0.5) { 
                 let particle = document.createElement('div');
                 particle.classList.add('trail-particle');
                 particle.style.left = `${posX}px`;
@@ -1025,9 +1239,7 @@
             }
         }
 
-        /* ------------------------------------------------------------
-           Pain Timer Logic (Modified for Age/Duration)
-        ------------------------------------------------------------ */
+        // --- Pain Timer ---
         function updatePainTimer() {
             const startDate = new Date('2003-05-27T00:00:00');
             const now = new Date();
@@ -1060,15 +1272,13 @@
             document.getElementById('p-min').innerText = fmt(minutes);
             document.getElementById('p-sec').innerText = fmt(seconds);
         }
-
         updatePainTimer();
         setInterval(updatePainTimer, 1000);
 
-        /* ------------------------------------------------------------ */
-
+        // --- Music Logic ---
         const audio = document.getElementById('bgm');
         const mIcon = document.getElementById('music-icon');
-        const visualizer = document.getElementById('visualizer'); // NEW
+        const visualizer = document.getElementById('visualizer'); 
         let musicHasStarted = false; 
 
         function toggleMusic(event) {
@@ -1077,12 +1287,12 @@
             if (audio.paused) {
                 audio.play();
                 mIcon.classList.replace('fa-music', 'fa-pause');
-                visualizer.classList.add('active'); // Activate Visualizer
+                visualizer.classList.add('active'); 
                 musicHasStarted = true;
             } else {
                 audio.pause();
                 mIcon.classList.replace('fa-pause', 'fa-music');
-                visualizer.classList.remove('active'); // Deactivate Visualizer
+                visualizer.classList.remove('active'); 
             }
         }
 
@@ -1091,13 +1301,14 @@
                 audio.play().then(() => {
                     musicHasStarted = true;
                     mIcon.classList.replace('fa-music', 'fa-pause');
-                    visualizer.classList.add('active'); // Activate on auto-start
+                    visualizer.classList.add('active'); 
                 }).catch(error => {
                     console.log("Audio play prevented until user interaction:", error);
                 });
             }
         }, { once: true });
 
+        // --- Language Toggle ---
         let currentLang = 'en';
         let isAnimating = false;
 
@@ -1129,6 +1340,7 @@
             }, 400);
         }
 
+        // --- Canvas Animation ---
         const canvas = document.getElementById('snowCanvas');
         const ctx = canvas.getContext('2d');
         let width, height, elements = [];
@@ -1194,11 +1406,11 @@
             setTimeout(() => { pain.remove(); }, 1800);
         });
 
-        // --- NEW: Tab Title Animation ---
+        // --- Title Animation ---
         let docTitle = document.title;
         window.addEventListener("blur", () => { document.title = "Come back... 💔"; });
         window.addEventListener("focus", () => { document.title = docTitle; });
 
     </script>
 </body>
-</html>
+    </html>
