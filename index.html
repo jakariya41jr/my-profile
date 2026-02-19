@@ -771,6 +771,62 @@
             100% { transform: translate(-50%, -200%) scale(1.5) rotate(15deg); opacity: 0; }
         }
 
+        /* --- NEW: Video Section Styles & Animations --- */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 71, 87, 0.3);
+            transition: var(--transition);
+        }
+        .video-wrapper:hover {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.5), 0 0 50px rgba(255, 71, 87, 0.2);
+            transform: scale(1.02);
+        }
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+            border-radius: 18px;
+            object-fit: cover;
+        }
+        .custom-video-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(10, 10, 10, 0.7);
+            border: 2px solid var(--primary-red);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer !important;
+            z-index: 10;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+        }
+        .custom-video-btn:hover {
+            background: var(--primary-red);
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 0 25px var(--primary-red);
+        }
+        .floating-anim {
+            animation: floatSection 6s ease-in-out infinite;
+        }
+        @keyframes floatSection {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -870,6 +926,25 @@
             </div>
         </header>
 
+        <section data-aos="fade-up" data-aos-delay="100" class="floating-anim">
+            <h2><i class="fas fa-film"></i> 
+                <span class="lang-en">Fragments of Memory</span>
+                <span class="lang-bn hidden">স্মৃতির টুকরো চিত্র</span>
+            </h2>
+            <p class="lang-en">A visual echo of untold stories. Press play to dive into the silence.</p>
+            <p class="lang-bn hidden">না-বলা গল্পের এক দৃশ্যমান প্রতিধ্বনি। নীরবতায় ডুব দিতে প্লে করুন।</p>
+            
+            <div class="video-wrapper">
+                <video id="myVideo" preload="metadata" poster="https://github.com/mdjakariyahasan753-ui/mybiovideoimag/raw/refs/heads/main/20260219_052117.jpg">
+                    <source src="https://github.com/Jakariya2020/song/raw/refs/heads/main/lv_0_20260218220256.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div id="videoPlayBtn" class="custom-video-btn" onclick="toggleMainVideo()">
+                    <i class="fas fa-play" id="videoPlayIcon"></i>
+                </div>
+            </div>
+        </section>
+
         <section data-aos="fade-up" data-aos-delay="100">
             <h2><i class="fas fa-user-secret"></i> 
                 <span class="lang-en">My Silence</span>
@@ -921,7 +996,6 @@
                 <p>আমার সমস্ত অস্তিত্ব, আমার সব লড়াইয়ের মূলে মাত্র দুটি মানুষ--আমার মা এবং বাবা। তারাই আমার পৃথিবী, আমার নিশ্বাস। যখন কেউ আমাকে বোঝেনি, তারা পাশে ছিলেন। আমার ক্লান্তি, ব্যর্থতা আর না-বলা যন্ত্রণার নীরব সাক্ষী তারাই। আমি লড়ছি, কেবল নিজের জন্য নয়--তাদের চোখে একটু প্রশান্তি আর গর্ব দেখার জন্য।</p>
             </div>
         </section>
-
         <section data-aos="fade-up" data-aos-delay="100" class="fog-section">
             <h2><i class="fas fa-smog"></i> 
                 <span class="lang-en">The Fog Within</span>
@@ -1155,10 +1229,9 @@
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // --- IMPROVED Preloader Logic (Faster) ---
+        // --- Preloader Logic ---
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            // পেজ লোড হওয়ামাত্রই খুব অল্প সময়ের মধ্যে এটি চলে যাবে (০.৮ সেকেন্ড পর)
             setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
@@ -1170,18 +1243,13 @@
         const cursorDot = document.querySelector(".cursor-dot");
         const cursorOutline = document.querySelector(".cursor-outline");
 
-        // --- Cursor & Trail Logic ---
+        // --- Cursor & Trail ---
         window.addEventListener("mousemove", (e) => {
             const posX = e.clientX;
             const posY = e.clientY;
-            
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
             if(Math.random() > 0.5) { 
                 let particle = document.createElement('div');
                 particle.classList.add('trail-particle');
@@ -1199,32 +1267,23 @@
             document.getElementById('progress-bar').style.width = scrolled + "%";
         });
 
+        // --- Tilt Card ---
         const card = document.getElementById("tiltCard");
         card.addEventListener("mousemove", (e) => {
             if (window.innerWidth < 600) return;
             const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / 25) * -1;
-            const rotateY = (x - centerX) / 25;
+            const rotateX = (((e.clientY - rect.top) - (rect.height / 2)) / 25) * -1;
+            const rotateY = ((e.clientX - rect.left) - (rect.width / 2)) / 25;
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         });
-
         card.addEventListener("mouseleave", () => {
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-            card.style.transition = 'transform 0.5s ease';
         });
 
         const spotlight = document.getElementById('spotlight');
         document.addEventListener('mousemove', (e) => {
-            requestAnimationFrame(() => {
-                const x = e.clientX + 'px';
-                const y = e.clientY + 'px';
-                spotlight.style.setProperty('--x', x);
-                spotlight.style.setProperty('--y', y);
-            });
+            spotlight.style.setProperty('--x', e.clientX + 'px');
+            spotlight.style.setProperty('--y', e.clientY + 'px');
         });
 
         function toggleTheme() {
@@ -1243,100 +1302,89 @@
         function updatePainTimer() {
             const startDate = new Date('2003-05-27T00:00:00');
             const now = new Date();
-
             let years = now.getFullYear() - startDate.getFullYear();
             let months = now.getMonth() - startDate.getMonth();
             let days = now.getDate() - startDate.getDate();
-            
-            if (days < 0) {
-                months--;
-                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                days += prevMonth.getDate();
-            }
-
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
-
+            if (days < 0) { months--; const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0); days += prevMonth.getDate(); }
+            if (months < 0) { years--; months += 12; }
             const fmt = (n) => n < 10 ? '0' + n : n;
-
             document.getElementById('p-years').innerText = fmt(years);
             document.getElementById('p-months').innerText = fmt(months);
             document.getElementById('p-days').innerText = fmt(days);
-            document.getElementById('p-hours').innerText = fmt(hours);
-            document.getElementById('p-min').innerText = fmt(minutes);
-            document.getElementById('p-sec').innerText = fmt(seconds);
+            document.getElementById('p-hours').innerText = fmt(now.getHours());
+            document.getElementById('p-min').innerText = fmt(now.getMinutes());
+            document.getElementById('p-sec').innerText = fmt(now.getSeconds());
         }
-        updatePainTimer();
         setInterval(updatePainTimer, 1000);
 
-        // --- Music Logic ---
+        // --- Music & Video Interaction Logic ---
         const audio = document.getElementById('bgm');
+        const mainVideo = document.getElementById('myVideo');
+        const videoPlayIcon = document.getElementById('videoPlayIcon');
+        const videoBtn = document.getElementById('videoPlayBtn');
         const mIcon = document.getElementById('music-icon');
-        const visualizer = document.getElementById('visualizer'); 
-        let musicHasStarted = false; 
+        const visualizer = document.getElementById('visualizer');
 
         function toggleMusic(event) {
             if(event) event.stopPropagation();
-
             if (audio.paused) {
+                // ভিডিও চললে মিউজিক প্লে হবে না
+                if(!mainVideo.paused) {
+                    mainVideo.pause();
+                    videoPlayIcon.classList.replace('fa-pause', 'fa-play');
+                    videoBtn.style.opacity = "1";
+                }
                 audio.play();
                 mIcon.classList.replace('fa-music', 'fa-pause');
-                visualizer.classList.add('active'); 
-                musicHasStarted = true;
+                visualizer.classList.add('active');
             } else {
                 audio.pause();
                 mIcon.classList.replace('fa-pause', 'fa-music');
-                visualizer.classList.remove('active'); 
+                visualizer.classList.remove('active');
             }
         }
 
-        document.body.addEventListener('click', function() {
-            if (!musicHasStarted) {
-                audio.play().then(() => {
-                    musicHasStarted = true;
-                    mIcon.classList.replace('fa-music', 'fa-pause');
-                    visualizer.classList.add('active'); 
-                }).catch(error => {
-                    console.log("Audio play prevented until user interaction:", error);
-                });
+        function toggleMainVideo() {
+            if (mainVideo.paused) {
+                // ভিডিও শুরু হলে ব্যাকগ্রাউন্ড মিউজিক বন্ধ হবে
+                if (!audio.paused) {
+                    audio.pause();
+                    mIcon.classList.replace('fa-pause', 'fa-music');
+                    visualizer.classList.remove('active');
+                }
+                mainVideo.play();
+                videoPlayIcon.classList.replace('fa-play', 'fa-pause');
+                videoBtn.style.opacity = "0.5";
+            } else {
+                mainVideo.pause();
+                videoPlayIcon.classList.replace('fa-pause', 'fa-play');
+                videoBtn.style.opacity = "1";
             }
-        }, { once: true });
+        }
+
+        // ভিডিও শেষ হলে বাটন ঠিক করা
+        mainVideo.onended = () => {
+            videoPlayIcon.classList.replace('fa-pause', 'fa-play');
+            videoBtn.style.opacity = "1";
+        };
 
         // --- Language Toggle ---
         let currentLang = 'en';
-        let isAnimating = false;
-
         function toggleLanguage() {
-            if (isAnimating) return;
-            isAnimating = true;
-            
-            const langIcon = document.getElementById('lang-icon');
             const body = document.body;
-            
+            const langIcon = document.getElementById('lang-icon');
             langIcon.classList.add('lang-switching');
-            
             setTimeout(() => {
                 if (currentLang === 'en') {
-                    currentLang = 'bn';
-                    langIcon.textContent = "EN";
-                    body.classList.add('lang-bn');
+                    currentLang = 'bn'; langIcon.textContent = "EN"; body.classList.add('lang-bn');
                     document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
                     document.querySelectorAll('.lang-bn').forEach(el => el.classList.remove('hidden'));
                 } else {
-                    currentLang = 'en';
-                    langIcon.textContent = "BN";
-                    body.classList.remove('lang-bn');
+                    currentLang = 'en'; langIcon.textContent = "BN"; body.classList.remove('lang-bn');
                     document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
                     document.querySelectorAll('.lang-bn').forEach(el => el.classList.add('hidden'));
                 }
                 langIcon.classList.remove('lang-switching');
-                setTimeout(() => { isAnimating = false; }, 400);
             }, 400);
         }
 
@@ -1344,73 +1392,36 @@
         const canvas = document.getElementById('snowCanvas');
         const ctx = canvas.getContext('2d');
         let width, height, elements = [];
-        function initCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-        }
+        function initCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
         class FallingElement {
             constructor() { this.reset(); }
             reset() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height - height;
-                this.size = Math.random() * 20 + 10;
-                this.speedV = Math.random() * 1.5 + 0.5;
-                this.speedH = Math.random() * 1 - 0.5;
-                this.angle = Math.random() * Math.PI * 2;
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = Math.random() * 2 - 1;
-                const types = ['❄', '💔', '🥀', '💧', '✨'];
-                this.char = types[Math.floor(Math.random() * types.length)];
+                this.x = Math.random() * width; this.y = Math.random() * height - height;
+                this.size = Math.random() * 20 + 10; this.speedV = Math.random() * 1.5 + 0.5;
+                this.char = ['❄', '💔', '🥀', '💧', '✨'][Math.floor(Math.random() * 5)];
                 this.opacity = Math.random() * 0.5 + 0.2;
             }
-            update() {
-                this.y += this.speedV;
-                this.angle += 0.02;
-                this.x += Math.sin(this.angle) * 1.5 + this.speedH;
-                this.rotation += this.rotationSpeed;
-                if (this.y > height) this.reset();
-            }
+            update() { this.y += this.speedV; if (this.y > height) this.reset(); }
             draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation * Math.PI / 180);
-                ctx.globalAlpha = this.opacity;
-                ctx.font = `${this.size}px serif`;
+                ctx.globalAlpha = this.opacity; ctx.font = `${this.size}px serif`;
                 ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#ff4757' : '#c0392b';
-                ctx.fillText(this.char, 0, 0);
-                ctx.restore();
+                ctx.fillText(this.char, this.x, this.y);
             }
         }
-        function createElements() {
-            elements = [];
-            const count = width < 600 ? 30 : 60;
-            for (let i = 0; i < count; i++) elements.push(new FallingElement());
-        }
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            elements.forEach(el => { el.update(); el.draw(); });
-            requestAnimationFrame(animate);
-        }
-        window.addEventListener('resize', () => { initCanvas(); createElements(); });
+        function createElements() { elements = Array.from({length: width < 600 ? 30 : 60}, () => new FallingElement()); }
+        function animate() { ctx.clearRect(0, 0, width, height); elements.forEach(el => { el.update(); el.draw(); }); requestAnimationFrame(animate); }
         initCanvas(); createElements(); animate();
 
         document.addEventListener('click', (e) => {
             const pain = document.createElement('div');
-            pain.classList.add('pain-heart-effect');
-            pain.innerHTML = '💔'; 
-            pain.style.left = e.clientX + 'px';
-            pain.style.top = e.clientY + 'px';
+            pain.classList.add('pain-heart-effect'); pain.innerHTML = '💔'; 
+            pain.style.left = e.clientX + 'px'; pain.style.top = e.clientY + 'px';
             document.body.appendChild(pain);
-            setTimeout(() => { pain.remove(); }, 1800);
+            setTimeout(() => pain.remove(), 1800);
         });
 
-        // --- Title Animation ---
-        let docTitle = document.title;
         window.addEventListener("blur", () => { document.title = "Come back... 💔"; });
-        window.addEventListener("focus", () => { document.title = docTitle; });
-
+        window.addEventListener("focus", () => { document.title = "Jakariya Hasan | Heartbroken Enthusiast"; });
     </script>
 </body>
-    </html>
+</html>
